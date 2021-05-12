@@ -4,8 +4,8 @@
 block_cipher = None
 
 
-a = Analysis(['parse-sage-pdfs.py'],
-             pathex=['C:\\Users\\adama\\Desktop\\bobo'],
+a = Analysis(['curry.py'],
+             pathex=['C:\\Users\\adama\\Desktop\\curry'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -22,7 +22,7 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='parse-sage-pdfs',
+          name='curry',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -35,4 +35,4 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='parse-sage-pdfs')
+               name='curry')

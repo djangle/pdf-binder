@@ -1,17 +1,3 @@
-#%% Define a Cell - use by notebook? I don't know how to use this.
-
-
-# Set app info (do I need a class for this?)
-class app():
-    name = "Merge Monthly Financial Statements"
-    version = "0.3"
-    aka = "Headless Horseman"
-    readme = "Program runs with minimal user interface (i.e. headless)"
-    author = "Adam Amodio"
-    lastUpdate = "2021"
-
-app = app()
-
 # Import libraries
 import os
 #from dataclasses import dataclass
@@ -19,6 +5,18 @@ import datetime
 from PyPDF2 import PdfFileMerger, PdfFileReader
 import tkinter as tk
 from tkinter import Label, Menu, messagebox, filedialog as fd
+import PyPDF2
+
+# Set app info (do I need a class for this?)
+class app():
+    name = "Curry"
+    version = "0.3"
+    aka = "Headless Horseman"
+    readme = "Program runs with minimal user interface (i.e. headless)"
+    author = "Adam Amodio"
+    lastUpdate = "2021"
+
+app = app()
 
 # Start program
 # TODO: Print log to a widget in tk (scrollingText?)
@@ -30,8 +28,8 @@ print("\n#####################################################\nStarting program
 ws = tk.Tk()
 ws.title(app.name)
 # TODO: Rewrite the following with Canvas.Tk()
-width = 200
-height = 50
+width = 275
+height = 200
 x_pos = 300
 y_pos = 100
 geometry_string = "{}x{}+{}+{}".format(width, height, x_pos, y_pos)
@@ -42,16 +40,16 @@ ws.geometry(geometry_string)
 # Define a function?
 #def runProgram():
 # TODO: Make a UI
-logText = "Hello\n\n"
+logText = "Making the curry...\n\n"
 log = tk.Label(text = logText)
 log.grid(column=0,row=0)
 
 print("INSTRUCTIONS: Select two PDF files: 1) month end SOA, 2) month end detail")
 # fd.askopenfilename() for one file
 # fd.askopenfilenames() for multiple files)
-filenames = fd.askopenfilenames()
+files = fd.askopenfilenames()
 #os.system('cmd /k "explorer /select"')
-print("Opening Files: " + str(filenames))
+print("Opening Files: " + str(files))
 
 # TODO: Use CMD line?
 #os.system('cmd /k "echo start"')
@@ -61,12 +59,26 @@ print("Opening Files: " + str(filenames))
 #def parse():
 fileCount = 0
 print("Loading files...")
+filenames = list(files)
+
 for file in filenames:
     fileCount += 1
 
-# TODO: Load each file in filenames to a separate pdfFileObj
-#    pdfFileObj.fileCount = open('filenames[fileCount]','rb')
-#    pdf.fileCount = PdfFileReader(pdfFileObj.fileCount)
+# TODO: Load each file in filenames to a separate object using a loop
+file1 = filenames[0]
+file2 = filenames[1]
+print("Filenames split")
+print("Filename 1: " + file1)
+print("Filename 2: " + file2)
+
+fileObj1 = open(file1,'rb')
+fileObj2 = open(file2, 'rb')
+print("Files opened as objects")
+
+# TODO: Read each file using a loop
+pdf1 = PyPDF2.PdfFileReader(fileObj1)
+pdf2 = PyPDF2.PdfFileReader(fileObj2)
+print("Files read as PDF's")
 
 print("File Count: " + str(fileCount))
 # TODO: Display error if filecount is not equal to two
@@ -95,34 +107,47 @@ print(desiredPageOrder)
 # Not guna help: >>>>pdfcat [-h] [-o output.pdf] [-v] input.pdf [page_range...] ...
 # Not guna help: pdfcat document-output.pdf filenames[0] 1::2
 #option1: combine both files then merge(1:50:2), ex. first of each document thru last after being appended
-outfile = PdfFileMerger.append(filenames[0])
 #option2: setup objects for each pdf and read from each into a new file, seems hard -- started above but not finished
+#trying option2
+# TODO: Try option1
+#outfile = PdfFileMerger.append(file1)
+#outfile = PdfFileMerger.append(file2)
+
+pdfWriter = PyPDF2.PdfFileWriter()
 
 # TODO: Iterate through the document page by page
-# Read page header for department number (and page number?)
 print("Reading all pages...\n")
-#for page in range(pageCount):
-#    currentPage = pdf.getPage(pageCount - (pageCount - i))
+for pageNum in range(pdf1.numPages):
+    pageObj = pdf1.getPage(pageNum)
+    pdfWriter.addPage(pageObj)
 
-    # Extract current page department number (i.e. section number)
+for pageNum in range(pdf2.numPages):
+    pageObj = pdf2.getPage(pageNum)
+    pdfWriter.addPage(pageObj)
+
+print("Printing 'merged-files.pdf'...\n")
+pdfOutputFile = open('merged-files.pdf','wb')
+pdfWriter.write(pdfOutputFile)
+print("Print complete. Check the folder!")
+
+# TODO: Extract current page department number (i.e. section number) from header
 #    currentPageText = currentPage.extractText()
 #    currentPageDept = currentPageText.splitlines()[-4:]
 #    print("(Page " + str(i) + " of " + str(pageCount) + "):" + str(currentPageDept))
 
 # TODO: Create bookmarks
-
-# TODO: Output file
-#outfile
-#print("Files merged and saved as: " + outfile)
-
 # TODO: Make the program more modular. A relic of version 0.2 ...
 #runProgram()
+
+# TODO: IMPORTANT!!! Close all files
+pdfOutputFile.close()
+fileObj1.close()
+fileObj2.close()
+
 
 # Display info via the 'About' menu option
 def about():
     messagebox.showinfo(app.name,"Hello World!\n\n" + "\nVersion: " + app.version + "\nAuthor: " + app.author)
-
-
 
 ## Setup menu bar
 menubar = Menu(ws, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')  
@@ -168,9 +193,6 @@ ws.mainloop()
 
 # Close program
 print("\nClosing program...\n-----------------------------------------------------")
-
-# TODO: IMPORTANT!!! Close all files
-#   file.close(filenames)
 
 # Goodbye
 print("Goodbye")
