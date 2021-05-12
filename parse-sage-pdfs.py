@@ -1,108 +1,122 @@
-#%%
+#%% Define a Cell - use by notebook? I don't know how to use this.
+
+
 # Set app info (do I need a class for this?)
 class app():
-    name = "sh-tk"
-    version = "0.1"
+    name = "Merge Monthly Financial Statements"
+    version = "0.3"
+    aka = "Headless Horseman"
+    readme = "Program runs with minimal user interface (i.e. headless)"
     author = "Adam Amodio"
+    lastUpdate = "2021"
 
 app = app()
 
 # Import libraries
+import os
+#from dataclasses import dataclass
 import datetime
-import PyPDF2
+from PyPDF2 import PdfFileMerger, PdfFileReader
 import tkinter as tk
-from tkinter import Label, Menu
-from tkinter import filedialog as fd
-from tkinter import messagebox
-from smtplib import SMTP
-# TODO: Setup email service?
-#with SMTP("localhost") as smtp:
-#    smtp.noop()
-
+from tkinter import Label, Menu, messagebox, filedialog as fd
 
 # Start program
 # TODO: Print log to a widget in tk (scrollingText?)
 # Set program start time
-programStartTime = datetime.datetime.now()
-print("\n#####################################################\nStarting program... \n" + str(programStartTime))
+startTime = str(datetime.datetime.now())
+print("\n#####################################################\nStarting program... \nNow: " + startTime)
 
 # Configure the UI
 ws = tk.Tk()
 ws.title(app.name)
 # TODO: Rewrite the following with Canvas.Tk()
-width = 500
-height = 400
+width = 200
+height = 50
 x_pos = 300
 y_pos = 100
 geometry_string = "{}x{}+{}+{}".format(width, height, x_pos, y_pos)
 ws.geometry(geometry_string)
 
-# TODO: Create live output widget
-logText = str(programStartTime)
+# TODO: Define PDF Document (input files, and output file?)
+# Define a class?
+# Define a function?
+#def runProgram():
+# TODO: Make a UI
+logText = "Hello\n\n"
 log = tk.Label(text = logText)
 log.grid(column=0,row=0)
 
-# TODO: Create function to parse files
-def parseFiles():
-    # TODO: Load multiple files (fd.askopenfilename() for one file, fd.askopenfilenames() for multiple files)
-    # Count files
-    fileCount = 0
-    print('Loading files...')
-    filenames = fd.askopenfilenames()
-    #pdfFileObj = open(filenames,'rb')
-    #pdf = PyPDF2.PDFFileReader(pdfFileObj)
+print("INSTRUCTIONS: Select two PDF files: 1) month end SOA, 2) month end detail")
+# fd.askopenfilename() for one file
+# fd.askopenfilenames() for multiple files)
+filenames = fd.askopenfilenames()
+#os.system('cmd /k "explorer /select"')
+print("Opening Files: " + str(filenames))
 
-    #for each file in filenames():
-        # Count files
-        #fileCount += fileCount
-        # TODO: Assign variables to each file
-        #file1 = filenames[0]
-        #file2 = filenames[1]
-        # TODO: Display file info (filenames, # of files, # of pages per file)
-        #print("Files Opened: ")
-        #print(filenames)
-        # Extract number of pages
-        #print("\nCounting Pages...")
-        #pageCount = pdf.numPages
-        #print("Page Count: " + str(pageCount))
+# TODO: Use CMD line?
+#os.system('cmd /k "echo start"')
+#os.system('cmd /k "echo filenames"')
 
-        # TODO: Scan files being parsed for actual page order
-        # Analyze current page order
-        #print("\nAnalyzing current page order...")
+#TODO: Create functions and classes?
+#def parse():
+fileCount = 0
+print("Loading files...")
+for file in filenames:
+    fileCount += 1
 
-    # TODO: Merge files
-    
-    # TODO: Reorder pages
-    #print("\nSetting desired page order...")
-    # This page order is from the PDF: smallest to largest section code
-    #currentPageOrder = [801,802,803,804,805,806,807,808,809,810,811,812,813,814,815,816,817,818,819,820,821,822,823,824,825,826,827,828,829,830,832,833,834,835,836,837,838,839,840,841,842,843,844,845,846,847,848]
-    #print(currentPageOrder)
-    # This page order is from Aptify: alphabetically by committee name
-    desiredPageOrder = [844,801,837,802,834,803,804,805,806,807,848,808,841,810,838,836,811,812,826,845,842,824,813,814,815,816,817,833,823,818,843,819,820,821,822,847,832,846,839,829,825,827,840,835,828,809,830]
+# TODO: Load each file in filenames to a separate pdfFileObj
+#    pdfFileObj.fileCount = open('filenames[fileCount]','rb')
+#    pdf.fileCount = PdfFileReader(pdfFileObj.fileCount)
 
-    # TODO: Iterate through the document page by page
-    # Read page header for department number (and page number?)
-    #print("\nReading all pages...")
-    #i = 0
-    #for i in range(pageCount):
-    #    currentPage = pdf.getPage(pageCount - (pageCount - i))
+print("File Count: " + str(fileCount))
+# TODO: Display error if filecount is not equal to two
 
-        # Extract current page department number (i.e. section number)
-    #    currentPageText = currentPage.extractText()
-    #    currentPageDept = currentPageText.splitlines()[-4:]
-    #    print("(Page " + str(i) + " of " + str(pageCount) + "):" + str(currentPageDept))
+# TODO: Display file info (filenames, # of files, # of pages per file)
+#print("Files Opened: " + str(filenames))
+# Extract number of pages
+#print("\nCounting Pages...")
+#pageCount = pdf.numPages
+#print("Page Count: " + str(pageCount))
 
-    # Set array of current page numbers with section department codes (ex. "802","etc")
+# TODO: Scan files being parsed for actual page order
+#print("\nAnalyzing current page order...")
+# # This page order is from the PDF: smallest to largest section code
+print("Analyzing current page order... (smallest to largest section code)\n")
+currentPageOrder = [801,802,803,804,805,806,807,808,809,810,811,812,813,814,815,816,817,818,819,820,821,822,823,824,825,826,827,828,829,830,832,833,834,835,836,837,838,839,840,841,842,843,844,845,846,847,848]
+print(currentPageOrder)
 
-    # TODO: Create bookmarks
+# TODO: Set array of current page numbers with section department codes (ex. "802","etc")
+# This page order is from Aptify: alphabetically by committee name
+print("Setting desired page order... (alphabetically by committee name)\n")
+desiredPageOrder = [844,801,837,802,834,803,804,805,806,807,848,808,841,810,838,836,811,812,826,845,842,824,813,814,815,816,817,833,823,818,843,819,820,821,822,847,832,846,839,829,825,827,840,835,828,809,830]
+print(desiredPageOrder)
 
-    # TODO: Output (local, email?)
-    print("Output files...")
-    #print("\nCreating file...")
-    #PyPDF2.PdfFileWriter.addPage()
-    #print to file
-    #outputFilename = "click to open pdf"
-    #print("Output filename: " + outputFilename)
+# TODO: Merge files
+# Not guna help: >>>>pdfcat [-h] [-o output.pdf] [-v] input.pdf [page_range...] ...
+# Not guna help: pdfcat document-output.pdf filenames[0] 1::2
+#option1: combine both files then merge(1:50:2), ex. first of each document thru last after being appended
+outfile = PdfFileMerger.append(filenames[0])
+#option2: setup objects for each pdf and read from each into a new file, seems hard -- started above but not finished
+
+# TODO: Iterate through the document page by page
+# Read page header for department number (and page number?)
+print("Reading all pages...\n")
+#for page in range(pageCount):
+#    currentPage = pdf.getPage(pageCount - (pageCount - i))
+
+    # Extract current page department number (i.e. section number)
+#    currentPageText = currentPage.extractText()
+#    currentPageDept = currentPageText.splitlines()[-4:]
+#    print("(Page " + str(i) + " of " + str(pageCount) + "):" + str(currentPageDept))
+
+# TODO: Create bookmarks
+
+# TODO: Output file
+#outfile
+#print("Files merged and saved as: " + outfile)
+
+# TODO: Make the program more modular. A relic of version 0.2 ...
+#runProgram()
 
 # Display info via the 'About' menu option
 def about():
@@ -115,11 +129,11 @@ menubar = Menu(ws, background='#ff8000', foreground='black', activebackground='w
 # File Menu
 file = Menu(menubar, tearoff=0, foreground='black')  
 #file.add_command(label="New")
-file.add_command(label="Parse Files", command=parseFiles)
-#file.add_command(label="Prepare", command=prepareOutput)
+#file.add_command(label="Open Files", command=open())
+#file.add_command(label="Parse", command=parse())
 #file.add_command(label="Save")
 #file.add_command(label="Save as")
-file.add_separator()
+#file.add_separator()
 file.add_command(label="Exit", command=ws.quit)
 menubar.add_cascade(label="File", menu=file)
 # Edit Menu
@@ -155,9 +169,8 @@ ws.mainloop()
 # Close program
 print("\nClosing program...\n-----------------------------------------------------")
 
-# Close all files
-#for(file) in range(len(filenames)):
-#    file.close()
+# TODO: IMPORTANT!!! Close all files
+#   file.close(filenames)
 
 # Goodbye
 print("Goodbye")
