@@ -108,11 +108,11 @@ print(desiredPageOrder)
 # Not guna help: pdfcat document-output.pdf filenames[0] 1::2
 #option1: combine both files then merge(1:50:2), ex. first of each document thru last after being appended
 #option2: setup objects for each pdf and read from each into a new file, seems hard -- started above but not finished
-#trying option2
 # TODO: Try option1
 #outfile = PdfFileMerger.append(file1)
 #outfile = PdfFileMerger.append(file2)
 
+# Trying Option2
 pdfWriter = PyPDF2.PdfFileWriter()
 
 # TODO: Iterate through the document page by page
