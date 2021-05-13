@@ -168,21 +168,21 @@ print("Goodbye @ " + str(datetime.datetime.now()) + "\n\n\n")
 
 
 # Define 'About' menu option
-def about():
-    messagebox.showinfo(app.name,"Hello World!")
+#def about():
+#    messagebox.showinfo(app.name,"Hello World!")
 
 ## Setup menu bar
-menubar = Menu(ws, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')  
+#menubar = Menu(ws, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')  
 # File Menu
-file = Menu(menubar, tearoff=0, foreground='black')  
+#file = Menu(menubar, tearoff=0, foreground='black')  
 #file.add_command(label="New")
 #file.add_command(label="Open Files", command=open())
 #file.add_command(label="Parse", command=parse())
 #file.add_command(label="Save")
 #file.add_command(label="Save as")
 #file.add_separator()
-file.add_command(label="Exit", command=ws.quit)
-menubar.add_cascade(label="File", menu=file)
+#file.add_command(label="Exit", command=ws.quit)
+#menubar.add_cascade(label="File", menu=file)
 # Edit Menu
 #edit = Menu(menubar, tearoff=0)
 #edit.add_command(label="Undo")
@@ -192,11 +192,11 @@ menubar.add_cascade(label="File", menu=file)
 #edit.add_command(label="Paste")
 #menubar.add_cascade(label="Edit", menu=edit)
 # Help Menu
-help = Menu(menubar, tearoff=0)
-help.add_command(label="About", command=about)
-menubar.add_cascade(label="Help", menu=help)
+#help = Menu(menubar, tearoff=0)
+#help.add_command(label="About", command=about)
+#menubar.add_cascade(label="Help", menu=help)
 # End menu setup
-ws.config(menu=menubar)
+#ws.config(menu=menubar)
 
 # End UI Setup
 ws.mainloop()
