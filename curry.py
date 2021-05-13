@@ -43,6 +43,7 @@ ws.geometry(geometry_string)
 logText = "Making the curry...\n\n"
 log = tk.Label(text = logText)
 log.grid(column=0,row=0)
+#log.pack() ?
 
 print("INSTRUCTIONS: Select two PDF files: 1) month end SOA, 2) month end detail")
 # fd.askopenfilename() for one file
@@ -51,12 +52,6 @@ files = fd.askopenfilenames()
 #os.system('cmd /k "explorer /select"')
 print("Opening Files: " + str(files))
 
-# TODO: Use CMD line?
-#os.system('cmd /k "echo start"')
-#os.system('cmd /k "echo filenames"')
-
-#TODO: Create functions and classes?
-#def parse():
 fileCount = 0
 print("Loading files...")
 filenames = list(files)
@@ -64,24 +59,32 @@ filenames = list(files)
 for file in filenames:
     fileCount += 1
 
-# TODO: Load each file in filenames to a separate object using a loop
+# TODO: Validate two files were selected
+# TODO: Display error if filecount is not equal to two
+#print("File Count: " + str(fileCount))
+
+# Load each file in filenames to a separate object using a loop
 file1 = filenames[0]
 file2 = filenames[1]
-print("Filenames split")
+
+# Print each filename
+print("Filenames split...\n")
 print("Filename 1: " + file1)
 print("Filename 2: " + file2)
 
+# Open each file
+print("Opening files...\n")
 fileObj1 = open(file1,'rb')
 fileObj2 = open(file2, 'rb')
-print("Files opened as objects")
+print("Files opened as objects.")
 
 # TODO: Read each file using a loop
+print("Read files as PDF's...\n")
 pdf1 = PyPDF2.PdfFileReader(fileObj1)
 pdf2 = PyPDF2.PdfFileReader(fileObj2)
-print("Files read as PDF's")
+print("Files read as PDF's\n")
 
-print("File Count: " + str(fileCount))
-# TODO: Display error if filecount is not equal to two
+
 
 # TODO: Display file info (filenames, # of files, # of pages per file)
 #print("Files Opened: " + str(filenames))

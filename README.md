@@ -1,17 +1,16 @@
 # Curry
-
 Curry is a Python library for dealing with artifact integration (ex. merging two PDF files).
 
-## Installation
+Post implementation of Sage IntAcct, monthly financial statements were exported in a new format and needed to be modified manually before posting to the OSB website. This program is intended to save the OSB approximately 2 hours per month of FTE pay by merging these documents with a program.
 
-An executable file is included in /dist. Copy this file to your computer if you wish to run it locally. Mayb
+## Installation
+An executable file is included in /dist/curry. Copy this file to your computer if you wish to run it locally. Mayb
 
 ```bash
-/dist/curry.exe
+/dist/curry/curry.exe
 ```
 
 ## Usage
-
 ```python
 import curry
 
