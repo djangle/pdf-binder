@@ -4,7 +4,9 @@ Curry is a Python library for dealing with artifact integration (ex. merging two
 (that's the idea at least)
 
 ## Installation
-An executable file is included in /dist/curry. Copy this file to your computer if you wish to run it locally. Maybe I should learn about deployment.
+An executable file is included in /dist/curry. Copy this file to your computer if you wish to run it locally. (This doesn't work right now because of the way some files are referenced.) 
+
+Maybe I should learn about deployment.
 
 ```bash
 /dist/curry/curry.exe

@@ -1,156 +1,167 @@
 # Import libraries
 import os
 import datetime
-from PyPDF2 import PdfFileMerger, PdfFileReader
 import tkinter as tk
-from tkinter import *
-from tkinter import Label, Menu, PhotoImage, messagebox, filedialog as fd
+from tkinter import filedialog as fd, messagebox, Menu
 import PyPDF2
-from playsound import playsound
+#from playsound import playsound
 
 class app():
     name = "Curry"
-    version = "0.1 'Ochre'"
-
-app = app()
 
 # Start program
 startTime = str(datetime.datetime.now())
+app = app()
 print("\n#####################################################\nHello @ " + startTime)
-playsound('audio/wookie.wav')
+#playsound('audio/wookie.wav')
 
 # TODO: Make a UI
 ws = tk.Tk()
 ws.title(app.name)
-canvas = Canvas(ws, bg="blue", width=1200, height=500)
-filename = PhotoImage(file = "images/delft.png")
-background_label = Label(ws, image=filename)
-background_label.place(x=0, y=0, relwidth=1, relheight=1)
-canvas.pack()
+#canvas = Canvas(ws, bg="blue", width=1200, height=420)
+#filename = PhotoImage(file = "images/delft.png")
+#background_label = Label(ws, image=filename)
+#background_label.place(x=0, y=0, relwidth=1, relheight=1)
+#canvas.pack()
+
 ws.configure()
 
 # Prepare to output a log file
-logText = "Making the curry..."
+logText = "Making the curry...\n\n"
 log = tk.Label(text = logText)
 #log.grid(column=0,row=0)
 log.pack()
 
-files = fd.askopenfilenames()
-print("Opening Files: " + str(files))
-
 fileCount = 0
-print("Loading files...")
-filenames = list(files)
+#files = fd.askopenfilenames()
+summaryFile = fd.askopenfilename(title="Open the SOA file")
+print("Summary file opened.")
 
-for file in filenames:
-    fileCount += 1
+detailFile = fd.askopenfilename(title="Open the detail file")
+print("Detail file opened.")
+
+# TODO: Set files to save time testing
+#files = ['C:\Users\adama\Desktop\curry\file_samples\2021-02-Section-Detail.pdf,'C:\Users\adama\Desktop\curry\file_samples\2021-02-Section-SOA.pdf']
+logText = "Files opened...\n"
+#filenames = list(files)
+
+#for file in filenames:
+#    fileCount += 1
 
 # TODO: Validate two files were selected
 # TODO: Display error if filecount is not equal to two
-print("File Count: " + str(fileCount))
+#print("File Count: " + str(fileCount))
 
 # Load each file in filenames to a separate object using a loop
-file1 = filenames[0]
-file2 = filenames[1]
+#file1 = filenames[0]
+#file2 = filenames[1]
+file1 = summaryFile
+file2 = detailFile
 
-# Print each filename
-print("Filenames split...")
-print("Filename 1: " + file1)
-print("Filename 2: " + file2)
 
 # Open each file
-print("Opening files...")
+logText += "file1: " + file1 + "\n"
+logText += "file2: " + file2 + "\n"
+
 fileObj1 = open(file1,'rb')
 fileObj2 = open(file2, 'rb')
 print("Files opened as objects.")
 
-print("Read files as PDF's...")
 pdf1 = PyPDF2.PdfFileReader(fileObj1)
 pdf2 = PyPDF2.PdfFileReader(fileObj2)
 print("Files read as PDF's.")
 
-print("Analyzing current page order...")
-# Extract current page department number (i.e. section number) from header of file1
+# TODO: Merge files early?
+
+print("Reading documents...")
+
+# Extract department numbers and section names from PDF headers (pdf1 only for now, because pdf2 should be the same)
+pageTags = []
+
 for page in range(pdf1.numPages):
     pdfPage = pdf1.getPage(page)
     pageText = pdfPage.extractText()
-    pageDept = pageText.splitlines()[-4:]
-    print("(Page " + str(page) + " of " + str(page) + "):" + str(pageDept))
+    pageTag = pageText.splitlines()[-4:-3]  # Read section number and name from page footer
+    pageTags += pageTag
+    #print("(Page " + str(page) + " of " + str(page) + "):" + str(pageTag))
+
+print("Section numbers and names extracted.")
+
+#print(pageTags)  # len(pageTags) = 44
+
 
 # Prepare to write output file
 pdfWriter = PyPDF2.PdfFileWriter()
 
 # TODO: Order the pages
-playsound('audio/nananana.wav')
-orderInput = [801,802,803,804,805,806,807,808,809,810,811,812,813,814,815,816,817,818,819,820,821,822,823,824,825,826,827,828,829,830,832,833,834,835,836,837,838,839,840,841,842,843,844,845,846,847,848]
-orderByAlpha = [844,801,837,802,834,803,804,805,806,807,848,808,841,810,838,836,811,812,826,845,842,824,813,814,815,816,817,833,823,818,843,819,820,821,822,847,832,846,839,829,825,827,840,835,828,809,830]
+# take extracted page codes and split between number and name; add an int to count
+# sort codes by alpha-name
+# return int for alpha-name
 
-# Set final output input page order by alpha output
-order = set([39,0,33,36,1,30,2,3,4,5,6,43,36,9,37,35,10,11,26,34,41,23,12,13,14,15,17,32,22,17,42,18,19,20,21,42,31,41,38,28,24,26,39,34,37,8,29])
+order = [39,33,1,30,2,3,5,6,43,7,36,9,34,32,10,11,24,40,37,22,12,13,14,15,16,29,21,17,38,18,20,42,41,27,23,25,35,31,26,8,28]
+print("Output order set.")
 
+# Build output PDF
 for ord in order:
-    pageObj = pdf1.getPage(ord)
-    pdfWriter.addPage(pageObj)
+    pageObj1 = pdf1.getPage(ord)
+    pdfWriter.addPage(pageObj1)
+    pageObj2 = pdf2.getPage(ord)
+    pdfWriter.addPage(pageObj2)
 
-    pageObj = pdf2.getPage(ord)
-    pdfWriter.addPage(pageObj)
+# TODO: Add bookmarks
+bookmarks = ['Administrative Law','Agricultural Law','Alternative Dispute Resolution','Animal Law','Antitrust, Trade Regulation','Appellate Practice','Business Law','Business Litigation','Cannabis and Psychedelics Law','Civil Rights','Constitutional Law','Construction Law','Consumer Law','Corporate Counsel','Criminal Law','Debtor-Creditor','Disability Law','Diversity','Elder Law','Energy, Telecom & Utility Law','Environmental & Natural Resources','Estate Planning & Administration','Family Law','Government Law','Health Law','Indian Law','Intellectual Property','International Law','Juvenile Law','Labor & Employment','Litigation','Military and Veterans Law','Nonprofit Organizations Law','Products Liability','Real Estate & Land Use','Securities Regulation','Solo and Small Firm','Sustainable Future','Taxation','Technology Law','Workers Compensation']
+int = 0
+for mark in range(0,82,2):
+    pdfWriter.addBookmark(bookmarks[int],mark)
+    int += 1
 
-# TODO: Create bookmarks
-bookmarks = ["Admin Law","Badminton Law","Cat Law"]
-for mark in bookmarks:
-    pdfWriter.addBookmark(mark,1)
+#playsound('audio/nananana.wav')
 
 # Write the output file
-print("Printing 'output/merged-files.pdf'...")
-pdfOutputFile = open('output/merged-files.pdf','wb')
+logText += "Printing 'merged-files.pdf'...\n"
+pdfOutputFile = open('merged-files.pdf','wb')
 pdfWriter.write(pdfOutputFile)
+logText += "Print complete!\n"
+#playsound('audio/r2.wav')
 
-# IMPORTANT!!! Close all files
+# Close all files
 pdfOutputFile.close()
 fileObj1.close()
 fileObj2.close()
+logText += "Files closed.\n"
+print("Files closed.")
 
-print("Print complete. Check the folder!")
-logText = "Curry Done!\n\nCheck your folder.\n\nClose me.\n\nGoodbye."
+# Goodbye
+print("\n\nClosing program...")
+# TODO: Save all "print()" statements to a log file
+logText += "Curry Done! Check your folder. Close me.\n\nGoodbye.\n" + str(datetime.datetime.now())
+print("Goodbye @ " + str(datetime.datetime.now()))
+print("-----------------------------------------------------\n")
 log = tk.Label(text = logText)
 #log.grid(column=0,row=0)
 log.pack()
 
-playsound('audio/r2.wav')
-
-# Goodbye
-print("Closing program...\n-----------------------------------------------------")
-print("Goodbye @ " + str(datetime.datetime.now()) + "\n\n\n")
-# TODO: Save all "print()" statements to a log file
 
 
 # Define 'About' menu option
-def about():
-    messagebox.showinfo(app.name,"Johannes Vermeer, painted ca. 1659–1661")
+#def about():
+#    messagebox.showinfo(app.name,"Johannes Vermeer, painted ca. 1659–1661")
 
-## Setup menu bar
-menubar = Menu(ws, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')  
+# Setup menu bar
+#menubar = Menu(ws, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')  
+
 # File Menu
-file = Menu(menubar, tearoff=0, foreground='black')  
+#file = Menu(menubar, tearoff=0, foreground='black')  
 #file.add_command(label="New")
 #file.add_command(label="Open", command=open())
 #file.add_separator()
-file.add_command(label="Exit", command=ws.quit)
-menubar.add_cascade(label="File", menu=file)
-# Edit Menu
-#edit = Menu(menubar, tearoff=0)
-#edit.add_command(label="Undo")
-#edit.add_separator()
-#edit.add_command(label="Cut")
-#edit.add_command(label="Copy")
-#edit.add_command(label="Paste")
-#menubar.add_cascade(label="Edit", menu=edit)
-# Help Menu
-help = Menu(menubar, tearoff=0)
-help.add_command(label="About", command=about)
-menubar.add_cascade(label="Help", menu=help)
-# End menu setup
-ws.config(menu=menubar)
+#file.add_command(label="Quit", command=ws.quit)
+#menubar.add_cascade(label="File", menu=file)
 
-# End UI Setup
+# Help Menu
+#help = Menu(menubar, tearoff=0)
+#help.add_command(label="About", command=about)
+#menubar.add_cascade(label="Help", menu=help)
+
+#ws.config(menu=menubar)
 ws.mainloop()
