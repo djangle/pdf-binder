@@ -3,16 +3,19 @@ Curry is a Python library for dealing with artifact integration (ex. merging two
 
 (that's the idea at least)
 
-## Installation
-An executable file is included in /dist/curry. Copy this file to your computer if you wish to run it locally. (This doesn't work right now because of the way some files are referenced.) 
+This began, well is beginning, to be a tool to merge monthly financial statements (2 PDF's with a dynamic number of pages).
 
-Maybe I should learn about deployment.
+Currently working on making the parsing of the documents more dynamic.
+
+## Installation
+I need to learn about deployment.
 
 ```bash
 /dist/curry/curry.exe
 ```
 
 ## Usage
+And I need to learn about usage too... "Just Use It".
 ```python
 import curry
 
@@ -21,9 +24,7 @@ curry.foobar('foo') # returns 'foo'
 ```
 
 ## Contributing
-Pull requests are interesting. I'm still learning how to use github properly. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
+...
 
 ## License
 Not sure what license to use yet.
