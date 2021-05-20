@@ -11,7 +11,7 @@ class app():
 # Start program
 startTime = str(datetime.datetime.now())
 app = app()
-print("\n#####################################################\nHello @ " + startTime)
+print("\n####################################################\nHello @ " + startTime)
 
 # Make a UI
 ws = tk.Tk()
