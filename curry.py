@@ -4,16 +4,14 @@ import datetime
 import tkinter as tk
 from tkinter import filedialog as fd, messagebox, Menu
 import PyPDF2
-#from playsound import playsound
 
 class app():
-    name = "Curry"
+    name = "Curry - Version 0.2 - Codename: \"Murray\""
 
 # Start program
 startTime = str(datetime.datetime.now())
 app = app()
 print("\n#####################################################\nHello @ " + startTime)
-#playsound('audio/wookie.wav')
 
 # TODO: Make a UI
 ws = tk.Tk()
@@ -24,58 +22,48 @@ ws.title(app.name)
 #background_label.place(x=0, y=0, relwidth=1, relheight=1)
 #canvas.pack()
 
+# Draw the window
 ws.configure()
 
-# Prepare to output a log file
+# Prepare text for window
 logText = "Making the curry...\n\n"
 log = tk.Label(text = logText)
 #log.grid(column=0,row=0)
 log.pack()
 
-fileCount = 0
-#files = fd.askopenfilenames()
+# Ask for input files
+#files = fd.askopenfilenames()  # Use to select multiple files at one time
 summaryFile = fd.askopenfilename(title="Open the SOA file")
 print("Summary file opened.")
-
 detailFile = fd.askopenfilename(title="Open the detail file")
 print("Detail file opened.")
 
 # TODO: Set files to save time testing
 #files = ['C:\Users\adama\Desktop\curry\file_samples\2021-02-Section-Detail.pdf,'C:\Users\adama\Desktop\curry\file_samples\2021-02-Section-SOA.pdf']
-logText = "Files opened...\n"
 #filenames = list(files)
+logText = "Files opened...\n"
 
-#for file in filenames:
-#    fileCount += 1
-
-# TODO: Validate two files were selected
-# TODO: Display error if filecount is not equal to two
-#print("File Count: " + str(fileCount))
-
-# Load each file in filenames to a separate object using a loop
-#file1 = filenames[0]
-#file2 = filenames[1]
+# Convert file* to *file because it's not important right now.
 file1 = summaryFile
 file2 = detailFile
 
+# Display opened filenames
+logText += "Summary of Activities: " + file1 + "\n"
+logText += "Statement Details: " + file2 + "\n"
 
 # Open each file
-logText += "file1: " + file1 + "\n"
-logText += "file2: " + file2 + "\n"
-
 fileObj1 = open(file1,'rb')
 fileObj2 = open(file2, 'rb')
 print("Files opened as objects.")
 
+# PyPDF2 "read" each file
 pdf1 = PyPDF2.PdfFileReader(fileObj1)
 pdf2 = PyPDF2.PdfFileReader(fileObj2)
 print("Files read as PDF's.")
 
-# TODO: Merge files early?
-
-print("Reading documents...")
-
-# Extract department numbers and section names from PDF headers (pdf1 only for now, because pdf2 should be the same)
+# TODO: Make it work
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Extract section numbers and section names from PDF headers
 pageTags = []
 
 for page in range(pdf1.numPages):
@@ -86,22 +74,16 @@ for page in range(pdf1.numPages):
     #print("(Page " + str(page) + " of " + str(page) + "):" + str(pageTag))
 
 print("Section numbers and names extracted.")
-
-#print(pageTags)  # len(pageTags) = 44
-
+#print(pageTags)
 
 # Prepare to write output file
 pdfWriter = PyPDF2.PdfFileWriter()
 
-# TODO: Order the pages
-# take extracted page codes and split between number and name; add an int to count
-# sort codes by alpha-name
-# return int for alpha-name
-
+# Order the pages
 order = [39,33,1,30,2,3,5,6,43,7,36,9,34,32,10,11,24,40,37,22,12,13,14,15,16,29,21,17,38,18,20,42,41,27,23,25,35,31,26,8,28]
 print("Output order set.")
 
-# Build output PDF
+# Combine the PDF's
 for ord in order:
     pageObj1 = pdf1.getPage(ord)
     pdfWriter.addPage(pageObj1)
@@ -115,14 +97,12 @@ for mark in range(0,82,2):
     pdfWriter.addBookmark(bookmarks[int],mark)
     int += 1
 
-#playsound('audio/nananana.wav')
-
 # Write the output file
 logText += "Printing 'merged-files.pdf'...\n"
 pdfOutputFile = open('merged-files.pdf','wb')
 pdfWriter.write(pdfOutputFile)
 logText += "Print complete!\n"
-#playsound('audio/r2.wav')
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Close all files
 pdfOutputFile.close()
@@ -138,9 +118,7 @@ logText += "Curry Done! Check your folder. Close me.\n\nGoodbye.\n" + str(dateti
 print("Goodbye @ " + str(datetime.datetime.now()))
 print("-----------------------------------------------------\n")
 log = tk.Label(text = logText)
-#log.grid(column=0,row=0)
 log.pack()
-
 
 
 # Define 'About' menu option

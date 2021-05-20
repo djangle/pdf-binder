@@ -8,7 +8,7 @@ This began, well is beginning, to be a tool to merge monthly financial statement
 Currently working on making the parsing of the documents more dynamic.
 
 ## Installation
-I need to learn about deployment.
+I need to learn about deployment!
 
 ```bash
 /dist/curry/curry.exe
