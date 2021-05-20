@@ -6,27 +6,20 @@ from tkinter import filedialog as fd, messagebox, Menu
 import PyPDF2
 
 class app():
-    name = "Curry - Version 0.2 - Codename: \"Murray\""
+    name = "Curry"
 
 # Start program
 startTime = str(datetime.datetime.now())
 app = app()
 print("\n#####################################################\nHello @ " + startTime)
 
-# TODO: Make a UI
+# Make a UI
 ws = tk.Tk()
 ws.title(app.name)
-#canvas = Canvas(ws, bg="blue", width=1200, height=420)
-#filename = PhotoImage(file = "images/delft.png")
-#background_label = Label(ws, image=filename)
-#background_label.place(x=0, y=0, relwidth=1, relheight=1)
-#canvas.pack()
-
-# Draw the window
 ws.configure()
 
 # Prepare text for window
-logText = "Making the curry...\n\n"
+logText = "Making the curry...\n"
 log = tk.Label(text = logText)
 #log.grid(column=0,row=0)
 log.pack()
@@ -35,12 +28,9 @@ log.pack()
 #files = fd.askopenfilenames()  # Use to select multiple files at one time
 summaryFile = fd.askopenfilename(title="Open the SOA file")
 print("Summary file opened.")
+
 detailFile = fd.askopenfilename(title="Open the detail file")
 print("Detail file opened.")
-
-# TODO: Set files to save time testing
-#files = ['C:\Users\adama\Desktop\curry\file_samples\2021-02-Section-Detail.pdf,'C:\Users\adama\Desktop\curry\file_samples\2021-02-Section-SOA.pdf']
-#filenames = list(files)
 logText = "Files opened...\n"
 
 # Convert file* to *file because it's not important right now.
@@ -61,6 +51,7 @@ pdf1 = PyPDF2.PdfFileReader(fileObj1)
 pdf2 = PyPDF2.PdfFileReader(fileObj2)
 print("Files read as PDF's.")
 
+logText="Make it work"
 # TODO: Make it work
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Extract section numbers and section names from PDF headers
@@ -74,14 +65,14 @@ for page in range(pdf1.numPages):
     #print("(Page " + str(page) + " of " + str(page) + "):" + str(pageTag))
 
 print("Section numbers and names extracted.")
-#print(pageTags)
-
-# Prepare to write output file
-pdfWriter = PyPDF2.PdfFileWriter()
+print(pageTags)
 
 # Order the pages
 order = [39,33,1,30,2,3,5,6,43,7,36,9,34,32,10,11,24,40,37,22,12,13,14,15,16,29,21,17,38,18,20,42,41,27,23,25,35,31,26,8,28]
 print("Output order set.")
+
+# Prepare to write output file
+pdfWriter = PyPDF2.PdfFileWriter()
 
 # Combine the PDF's
 for ord in order:
@@ -120,26 +111,4 @@ print("-----------------------------------------------------\n")
 log = tk.Label(text = logText)
 log.pack()
 
-
-# Define 'About' menu option
-#def about():
-#    messagebox.showinfo(app.name,"Johannes Vermeer, painted ca. 1659–1661")
-
-# Setup menu bar
-#menubar = Menu(ws, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')  
-
-# File Menu
-#file = Menu(menubar, tearoff=0, foreground='black')  
-#file.add_command(label="New")
-#file.add_command(label="Open", command=open())
-#file.add_separator()
-#file.add_command(label="Quit", command=ws.quit)
-#menubar.add_cascade(label="File", menu=file)
-
-# Help Menu
-#help = Menu(menubar, tearoff=0)
-#help.add_command(label="About", command=about)
-#menubar.add_cascade(label="Help", menu=help)
-
-#ws.config(menu=menubar)
 ws.mainloop()
