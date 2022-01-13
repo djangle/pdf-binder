@@ -8,11 +8,12 @@ import PyPDF2
 
 class app():
     name = "Curry"
+    version = "0.1"
 
 # Start program
 startTime = str(datetime.datetime.now())
 app = app()
-print("\n#####################################################\nHello @ " + startTime)
+print("\n#####################################################\nStarting Program @ " + startTime)
 #playsound('audio/wookie.wav')
 
 # TODO: Make a UI
@@ -142,7 +143,7 @@ print("Files closed.")
 # Goodbye
 print("\n\nClosing program...")
 # TODO: Save all "print()" statements to a log file
-logText += "Curry Done! Check your folder. Close me.\n\nGoodbye.\n" + str(datetime.datetime.now())
+logText += "Done! Check your folder. Close me.\n\nGoodbye.\n" + str(datetime.datetime.now())
 print("Goodbye @ " + str(datetime.datetime.now()))
 print("-----------------------------------------------------\n")
 log = tk.Label(text = logText)
