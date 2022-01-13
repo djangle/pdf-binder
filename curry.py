@@ -83,9 +83,17 @@ for page in range(pdf1.numPages):
     pageText = pdfPage.extractText()
     pageTag = pageText.splitlines()[-4:-3]  # Read section number and name from page footer
     pageTags += pageTag
-    #print("(Page " + str(page) + " of " + str(page) + "):" + str(pageTag))
+    print("(Page " + str(page) + " of " + str(page) + "):" + str(pageTag))
 
 print("Section numbers and names extracted.")
+
+#class pdfPage()
+#(section_code, section_name, start_page, end_page, pageObject)
+
+# pageObject = pdfReader(pdf)
+# ex. pdfPage(801, Admiralty, 0, pageObject)
+# ex. pdfPage(801, Admiralty, 1, pageObject)
+# add pdfPage to outputPDF
 
 #print(pageTags)  # len(pageTags) = 44
 
