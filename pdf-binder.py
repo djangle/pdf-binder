@@ -7,8 +7,8 @@ import PyPDF2
 #from playsound import playsound
 
 class app():
-    name = "Curry"
-    version = "0.1"
+    name = "pdf-binder"
+    version = "0.0.1"
 
 # Start program
 startTime = str(datetime.datetime.now())

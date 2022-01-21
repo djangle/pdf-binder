@@ -1,2 +1,2 @@
 # What is Curry?
-Curry builds documents, currently by merging two PDF's.
+Pdf-binder merges monthly financial documents according to business logic.
