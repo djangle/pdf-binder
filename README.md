@@ -1,2 +1,2 @@
-# What is Curry?
-Pdf-binder merges monthly financial documents according to business logic.
+# pdf-binder
+Merges monthly financial documents according to business logic.
